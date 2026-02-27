@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-lab
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: node-lab
+  template:
+    metadata:
+      labels:
+        app: node-lab
+    spec:
+      containers:
+        - name: app
+          image: fabianguevara/node-js-tests-sample:latest
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-lab-svc
+spec:
+  selector:
+    app: node-lab
+  ports:
+    - port: 80
+      targetPort: 3000
+  type: ClusterIP
